@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script>
+            setInterval(function () {
+                console.log(222);
+            }, 1000);
+            clearInterval();
+        </script>
+        <!-- core react library that deals component state and all react stuff -->
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <!-- rendering layer which can render react into the dom -->
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script>
+            function App() {
+                // you need to return JSX but you don't have the tool that converts it back int js
+                // const time = new Date().toLocaleString();
+                const [time, setTime] = React.useState(
+                    new Date().toLocaleString()
+                );
+
+                React.useEffect(function () {
+                    setInterval(function () {
+                        setTime(new Date().toLocaleString());
+                    }, 1000);
+                }, []);
+
+                return React.createElement(
+                    "header",
+                    null,
+                    `hello there ${time}`
+                );
+            }
+            // eff;
+            const root = ReactDOM.createRoot(document.getElementById("root"));
+            root.render(React.createElement(App));
+        </script>
+    </body>
+</html>
