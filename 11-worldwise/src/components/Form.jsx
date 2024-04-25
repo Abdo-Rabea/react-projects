@@ -10,6 +10,10 @@ import BackButton from "./BackButton";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useCities } from "../contexts/CitiesContext";
+import { useNavigate } from "react-router-dom";
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -37,7 +41,8 @@ function Form() {
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
-
+  const { createCity } = useCities();
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchCityData() {
       try {
@@ -61,12 +66,32 @@ function Form() {
     fetchCityData();
   }, [lat, lng]);
 
+  // handler can be async function
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!cityName || !date) return;
+    const newCity = {
+      cityName,
+      country,
+      emoji: convertToEmoji(emojiCode),
+      date,
+      notes,
+      position: {
+        lat,
+        lng,
+      },
+    };
+    // async. function will return a promise
+    await createCity(newCity);
+    navigate("/app/cities");
+  }
+
   if (!lat && !lng)
     return <Message message="start by clicking anywhere in the map" />;
   if (!lat) if (error) return <Message message={error} />;
   if (isLoadingGeocoding) return <Spinner />;
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input
@@ -81,10 +106,13 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input
+        <DatePicker
           id="date"
-          onChange={(e) => setDate(e.target.value)}
-          value={date}
+          selected={date}
+          dateFormat="dd/MM/yyyy"
+          onChange={(data) => {
+            setDate(data);
+          }}
         />
       </div>
 

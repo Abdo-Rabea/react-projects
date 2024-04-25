@@ -6,6 +6,7 @@ function BackButton() {
   return (
     <Button
       onClick={(e) => {
+        // to not submit form
         e.preventDefault();
         navigate(-1);
       }}
