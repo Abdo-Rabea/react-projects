@@ -18,8 +18,14 @@ const flagemojiToPNG = (flag) => {
 };
 function CityItem({ city }) {
   const { emoji, cityName, date, id, position } = city;
-  const { currentCity } = useCities();
+  const { currentCity, deleteCity } = useCities();
   const isActive = currentCity.id === id;
+
+  function handleDeleteCity(e) {
+    // it prevent the fired action even if it is done by you
+    e.preventDefault();
+    deleteCity(id);
+  }
   return (
     <li>
       <Link
@@ -31,7 +37,9 @@ function CityItem({ city }) {
         <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>{formatDate(date)}</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button className={styles.deleteBtn} onClick={handleDeleteCity}>
+          &times;
+        </button>
       </Link>
     </li>
   );

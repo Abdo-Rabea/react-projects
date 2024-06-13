@@ -25,112 +25,40 @@
       "id": 17806751
     },
     {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
+      "cityName": "Rafaḩ",
+      "country": "Palestine, State of",
+      "emoji": "🇵🇸",
+      "date": "2024-04-25T17:40:24.057Z",
+      "notes": "",
       "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": 98443197
-    },
-    {
-      "cityName": "الدقهلية",
-      "country": "Egypt",
-      "emoji": "🇪🇬",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 31.035539,
-        "lng": 31.374339
-      },
-      "id": 1111111
-    },
-    {
-      "cityName": "Morella",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-04-24T15:18:10.224Z",
-      "notes": "hello",
-      "position": {
-        "lat": "40.50988356956152",
-        "lng": "-0.05945980413735175"
-      },
-      "id": 98443198
-    },
-    {
-      "cityName": "Bellmunt de Mesqui / Belmonte de San Jose",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-04-24T15:26:50.718Z",
-      "notes": "asdfd",
-      "position": {
-        "lat": "40.8804398447534",
-        "lng": "-0.03193212481521713"
+        "lat": "31.32185010462101",
+        "lng": "34.223998026533366"
       },
       "id": 98443199
     },
     {
-      "cityName": "Fraga",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-04-24T15:28:47.848Z",
-      "notes": "welcome",
+      "cityName": "Damanhur",
+      "country": "Egypt",
+      "emoji": "🇪🇬",
+      "date": "2024-05-08T22:18:03.251Z",
+      "notes": "asdf",
       "position": {
-        "lat": "41.4264963164597",
-        "lng": "0.1608358612511829"
+        "lat": "30.97741267587207",
+        "lng": "30.44860819727186"
       },
       "id": 98443200
     },
     {
-      "cityName": "La Mata de Morella",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-04-24T15:29:36.011Z",
-      "notes": "",
+      "cityName": "Rafaḩ",
+      "country": "Palestine, State of",
+      "emoji": "🇵🇸",
+      "date": "2024-06-12T16:00:33.203Z",
+      "notes": "ggg",
       "position": {
-        "lat": "40.60167348283517",
-        "lng": "-0.29619784630761764"
-      },
-      "id": 98443201
-    },
-    {
-      "cityName": "Sierra-Engarceran",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-04-24T15:29:53.096Z",
-      "notes": "",
-      "position": {
-        "lat": "40.21698807281574",
-        "lng": "-0.004404445493102483"
+        "lat": "31.321987285819915",
+        "lng": "34.224193096160896"
       },
       "id": 98443202
-    },
-    {
-      "cityName": "Remada",
-      "country": "Tunisia",
-      "emoji": "🇹🇳",
-      "date": "2024-04-24T15:30:11.760Z",
-      "notes": "hello there",
-      "position": {
-        "lat": "32.07080335315671",
-        "lng": "9.597159596902738"
-      },
-      "id": 98443203
-    },
-    {
-      "cityName": "El Dabaa",
-      "country": "Egypt",
-      "emoji": "🇪🇬",
-      "date": "2024-04-25T15:43:43.873Z",
-      "notes": "welcome there\n",
-      "position": {
-        "lat": "30.0146921112446",
-        "lng": "27.807089881002558"
-      },
-      "id": 98443204
     }
   ]
 }
