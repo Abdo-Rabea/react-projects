@@ -7,14 +7,6 @@ function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // this doesn't work if you are accessing the composite route
-  //    I think this is because you are navigate to "/" after the app and then to cities
-  //  so use useEffect
-  // if (!isAuthenticated) {
-  //   console.log("not auth");
-  //   navigate("/");
-  // }
-
   useEffect(
     function () {
       if (!isAuthenticated) navigate("/");
@@ -25,3 +17,11 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute;
+
+// this doesn't work if you are accessing the composite route
+//    I think this is because you are navigate to "/" after the app and then to cities
+//  so use useEffect
+// if (!isAuthenticated) {
+//   console.log("not auth");
+//   navigate("/");
+// }
