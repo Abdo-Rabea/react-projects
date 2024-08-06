@@ -3,6 +3,10 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
 import { useSelector } from "react-redux";
+import { clearCart, getCart, getTotalCartPrice } from "../cart/cartSlice";
+import EmptyCart from "../cart/EmptyCart";
+import store from "../../store.js";
+import { formatCurrency } from "../../utils/helpers";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -10,41 +14,23 @@ const isValidPhone = (str) =>
     str,
   );
 
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
-
 function CreateOrder() {
+  const [withPriority, setWithPriority] = useState(false);
   const { username } = useSelector((store) => store.user);
+  const cart = useSelector(getCart);
 
   const navigation = useNavigation(); // global access to what ever loading or submitting
   const isSubmitting = navigation.state === "submitting";
-  // const [withPriority, setWithPriority] = useState(false);
-  const cart = JSON.stringify(fakeCart);
-  // const cart = fakeCart;
 
   const formErrors = useActionData(); // {phone: 'Please Enter valid phone number so that we can contact you if needed'}
+  // const navigate = useNavigate();
 
+  const totalCartPrice = useSelector(getTotalCartPrice);
+  const priorityPrice = withPriority ? totalCartPrice * 0.25 : 0;
+  const totalPrice = totalCartPrice + priorityPrice;
+
+  console.log(withPriority);
+  if (!cart.length) return <EmptyCart />;
   return (
     <div className="px-4 py-6">
       <h2 className="mb-6 text-xl font-semibold">Ready to order? Let's go!</h2>
@@ -92,8 +78,8 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            value={withPriority}
+            onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label className="font-medium" htmlFor="priority">
             Want to yo give your order priority?
@@ -101,9 +87,11 @@ function CreateOrder() {
         </div>
 
         <div>
-          <input type="hidden" name="cart" value={cart} />
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           <Button type="primary" disabled={isSubmitting}>
-            {isSubmitting ? "Placing order..." : "Order now"}
+            {isSubmitting
+              ? "Placing order..."
+              : `Order now for ${formatCurrency(totalPrice)}`}
           </Button>
         </div>
       </Form>
@@ -118,7 +106,7 @@ export async function action({ request }) {
   let data = Object.fromEntries(formData);
   data = {
     ...data,
-    priority: data.priority === "on",
+    priority: data.priority === "true",
     cart: JSON.parse(data.cart),
   };
 
@@ -133,6 +121,10 @@ export async function action({ request }) {
 
   // real fetch
   const order = await createOrder(data);
+
+  //! don't overuse as it removes some of redux performance optimization (you can call dispatch anywhere not only in the component)
+  //* i had to do so as you need to clearCart in redux after createOrder async called from react-router
+  store.dispatch(clearCart());
 
   // react-router solution instead of useNavigate as action is just a function not Compononet
   return redirect(`/order/${order.id}`); //todo: what is that? A redirect response. Sets the status code and the Location header. Defaults to "302 Found".

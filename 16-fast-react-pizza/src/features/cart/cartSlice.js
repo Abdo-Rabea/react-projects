@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cart: [
-    {
-      pizzaId: 12,
-      name: "Mediterranean",
-      quantity: 2,
-      unitPrice: 16,
-      totalPrice: 32,
-    },
-  ],
+  cart: [],
+  // cart: [
+  //   {
+  //     pizzaId: 12,
+  //     name: "Mediterranean",
+  //     quantity: 2,
+  //     unitPrice: 16,
+  //     totalPrice: 32,
+  //   },
+  // ],
 };
 
 const cartSlice = createSlice({
@@ -39,6 +40,8 @@ const cartSlice = createSlice({
 
       item.quantity--;
       item.totalPrice = item.quantity * item.unitPrice;
+      //*you can access another reducer action creators (reducer functions) inside another reducer function using cartSlice.caseReducer.deleteItem(state, action) wow
+      if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);
     },
     clearCart(state) {
       state.cart = [];
@@ -54,3 +57,17 @@ export const {
   clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
+
+export const getCart = (store) => store.cart.cart;
+
+//! this function will be called returing the inside function to the useSelector which will then normally be called :) wow;
+export const getCurrentQuantityById = (id) => (store) =>
+  store.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+
+// arrow function as it is simple one line
+export const getTotalCartQuantity = (store) =>
+  store.cart.cart.reduce((acc, item) => acc + item.quantity, 0);
+export const getTotalCartPrice = (store) =>
+  store.cart.cart.reduce((acc, item) => acc + item.totalPrice, 0);
+
+// reselect
