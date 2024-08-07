@@ -1,6 +1,7 @@
 // Test ID: IIDSAT, ZEM36T, L371YA
 
 import {
+  useFetcher,
   useLoaderData,
   useNavigation,
   useParams,
@@ -13,6 +14,7 @@ import {
   formatDate,
 } from "../../utils/helpers";
 import OrderItem from "./OrderItem";
+import { useEffect } from "react";
 
 function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
@@ -28,8 +30,16 @@ function Order() {
     cart,
   } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
-  const { OrderId } = useParams();
+  //// const { OrderId } = useParams();
 
+  //todo: fetch the menu here to show ingredients
+  const fetcher = useFetcher();
+  useEffect(
+    function () {
+      if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
+    },
+    [fetcher],
+  );
   return (
     <div className="space-y-8 px-4 py-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -58,7 +68,15 @@ function Order() {
 
       <ul className="divide-y divide-stone-200 border-b border-t">
         {cart.map((pizza) => (
-          <OrderItem key={pizza.pizzaId} item={pizza} />
+          <OrderItem
+            key={pizza.pizzaId}
+            item={pizza}
+            isLoadingIngredients={fetcher.state === "loading"}
+            ingredients={
+              fetcher.data?.find((item) => item.id === pizza.pizzaId)
+                .ingredients
+            }
+          />
         ))}
       </ul>
 
@@ -79,7 +97,7 @@ function Order() {
   );
 }
 
-// react router sends the params
+// react router sends the params wow
 export async function loader({ params }) {
   const order = await getOrder(params.orderId);
   return order;
