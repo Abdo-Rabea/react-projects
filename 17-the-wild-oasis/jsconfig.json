@@ -1,9 +1,1 @@
-// {
-//   "compilerOptions": {
-//     "baseUrl": "./src/**/*",
-//     "module": "NodeNext",
-//     "jsx": "react-jsx"
-//   },
-//   "include": ["./src"],
-//   "exclude": ["./node_modules", "./public"]
-// }
+{}
