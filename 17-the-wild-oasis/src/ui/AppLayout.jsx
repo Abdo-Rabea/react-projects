@@ -7,7 +7,7 @@ import styled from "styled-components";
 const StyledAppLayout = styled.div`
   display: grid;
   height: 100dvh;
-  grid-template-columns: minmax(auto, 26rem) 1fr;
+  grid-template-columns: minmax(auto, 26rem) 1fr; /* //todo: after newing the min-width do this minmax(m, 1fr)*/
   grid-template-rows: auto 1fr;
 `;
 
