@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import { getCabins } from "../services/apiCabins";
+import { QueryClient } from "@tanstack/react-query";
 
 function Cabins() {
   useEffect(function () {
@@ -15,6 +16,7 @@ function Cabins() {
       <Heading as="h1">All cabins</Heading>
       <p>TEST</p>
       <img
+        width="200px"
         src="https://nrgbqrcwswkjoqkioatw.supabase.co/storage/v1/object/public/cabin-images/cabin-001.jpg"
         alt="image was here"
       />

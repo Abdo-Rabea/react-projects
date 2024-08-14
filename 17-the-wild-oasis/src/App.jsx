@@ -10,10 +10,20 @@ import Cabins from "./pages/Cabins";
 import GlobalStyles from "./styles/GlobalStyles";
 import Login from "./pages/Login";
 import AppLayout from "./ui/AppLayout";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // the time before next re-fetch
+      staleTime: 60 * 1000,
+    },
+  },
+});
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools buttonPosition="bottom-left" position="bottom" />
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
@@ -32,7 +42,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </QueryClientProvider>
   );
 }
 
