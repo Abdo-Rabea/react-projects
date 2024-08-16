@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-const FileInput = styled.input`
+//* attrs to add attributes that by default should exist (that you will add every time you use this component)
+const FileInput = styled.input.attrs({ type: "file" })`
   font-size: 1.4rem;
   border-radius: var(--border-radius-sm);
 

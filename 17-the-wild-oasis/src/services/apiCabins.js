@@ -21,3 +21,14 @@ export async function deleteCabin(id) {
     throw new Error("Cabin Couldn't be deleted");
   }
 }
+
+export async function createCabin(newCabin) {
+  const { data, error } = await supabase
+    .from("cabins")
+    .insert([newCabin])
+    .select();
+  if (error) {
+    //todo: you can check the type of error and throw approperiate error message
+    throw new Error("Cabin Couldn't be added");
+  }
+}

@@ -56,6 +56,7 @@ function CabinRow({ cabin }) {
         queryKey: ["cabins"],
       });
     },
+    //* here after calling async. function you are just diplaying the message of the thrown error
     onError: (err) => toast.error(err.message),
   });
   return (
