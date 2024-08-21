@@ -12,7 +12,7 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { id: editId, ...cabinEditValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
   //* getValues -> returns object contains or current values
@@ -30,14 +30,27 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     const imgData = typeof data.image === "string" ? data.image : data.image[0];
     if (isEditSession) {
       //! you must send one object having all values
-      editCabin({ newCabinData: { ...data, image: imgData }, editId });
+      editCabin(
+        { newCabinData: { ...data, image: imgData }, editId },
+        {
+          onSuccess: (data) => {
+            reset();
+            //! as the form can be not used in the modal so it will be undefined
+            onCloseModal?.();
+          },
+        }
+      );
     } else
       createCabin(
         { ...data, image: imgData },
         //* you can access options in the mutate
         //* you also have access to the mutationFn returned value (wow)
         {
-          onSuccess: (data) => reset(),
+          onSuccess: (data) => {
+            reset();
+            //! as the form can be not used in the modal so it will be undefined
+            onCloseModal?.();
+          },
         }
       );
   }
@@ -48,7 +61,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
   const isWorking = isCreatingCabin || isEditingCabin;
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -135,7 +151,13 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          onClick={() => {
+            onCloseModal?.();
+          }}
+          variation="secondary"
+          type="reset"
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>

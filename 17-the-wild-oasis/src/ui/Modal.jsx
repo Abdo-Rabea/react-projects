@@ -1,3 +1,5 @@
+import { createPortal } from "react-dom";
+import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 
 const StyledModal = styled.div`
@@ -10,6 +12,8 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
+  max-height: calc(100% - 10px);
+  overflow: auto;
 `;
 
 const Overlay = styled.div`
@@ -48,3 +52,25 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+function Modal({ children, onClose }) {
+  /**
+   * createPortal: don't do anything to the component tree
+   * it moves the element position in the browser dom causing you to render it in any location in the dom you want
+   * the behaviour is still the same because modal takes full width but this ensures that the modal styling will not be affected by the parent styling as it make parent flex :(
+   * this gives you the same behaviour as the modal library (wow)
+   */
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={onClose}>
+          <HiXMark />
+        </Button>
+        {children}
+      </StyledModal>
+    </Overlay>,
+    document.body
+  );
+}
+
+export default Modal;
