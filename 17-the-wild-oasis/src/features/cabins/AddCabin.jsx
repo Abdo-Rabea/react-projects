@@ -1,21 +1,19 @@
-import { useState } from "react";
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
 
 function AddCabin() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
+  //what a wonderfull api -> just get me the open button and form and i will handle everything
   return (
     <div>
-      <Button onClick={() => setIsOpenModal(!isOpenModal)}>
-        Add New Cabin
-      </Button>
-      {isOpenModal && (
-        <Modal onClose={() => setIsOpenModal(false)}>
-          <CreateCabinForm onCloseModal={() => setIsOpenModal(false)} />
-        </Modal>
-      )}
+      <Modal>
+        <Modal.Open opens="cabin-form">
+          <Button>Add new Cabin</Button>
+        </Modal.Open>
+        <Modal.Window name="cabin-form">
+          <CreateCabinForm />
+        </Modal.Window>
+      </Modal>
     </div>
   );
 }
