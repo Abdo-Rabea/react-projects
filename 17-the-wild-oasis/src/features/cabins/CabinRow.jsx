@@ -7,6 +7,7 @@ import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
 
 const TableRow = styled.div`
   display: grid;
@@ -59,7 +60,7 @@ function CabinRow({ cabin }) {
   }
   return (
     <>
-      <TableRow role="row">
+      <Table.Row role="row">
         <Img src={cabin.image} />
         <Cabin>{cabin.name}</Cabin>
         <Capacity>Fits up to {cabin.maxCapacity} guests</Capacity>
@@ -96,7 +97,7 @@ function CabinRow({ cabin }) {
             </Modal.Window>
           </Modal>
         </div>
-      </TableRow>
+      </Table.Row>
     </>
   );
 }
