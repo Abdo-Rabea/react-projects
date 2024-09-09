@@ -12,8 +12,6 @@ export function useEditCabin() {
       queryClient.invalidateQueries({
         queryKey: ["cabins"],
       });
-      //todo: close the modal
-      // reset();
     },
     onError: (err) => toast.error(err.message),
   });

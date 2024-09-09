@@ -31,6 +31,7 @@ const StyledToggle = styled.button`
 `;
 
 const StyledList = styled.ul`
+  width: max-content;
   position: absolute;
   z-index: 100;
   background-color: var(--color-grey-0);
