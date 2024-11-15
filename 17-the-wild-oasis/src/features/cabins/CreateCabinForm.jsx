@@ -42,6 +42,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       );
     } else
       createCabin(
+        // the first object is passed directly to the mutationFn
         { ...data, image: imgData },
         //* you can access options in the mutate
         //* you also have access to the mutationFn returned value (wow)
