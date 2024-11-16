@@ -12,8 +12,12 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import { useNavigate } from "react-router-dom";
-import { HiArrowUpOnSquare } from "react-icons/hi2";
+import { HiArrowUpOnSquare, HiTrash } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
+import Modal from "../../ui/Modal";
+import Menus from "../../ui/Menus";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import useDeleteBooking from "./useDeleteBooking";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -28,7 +32,7 @@ function BookingDetail() {
   const moveBack = useMoveBack();
 
   const { checkout, isCheckingout } = useCheckout();
-
+  const { isDeleting, deleteBooking } = useDeleteBooking();
   if (isLoading) return <Spinner />;
   if (error) return <div>{error.message}</div>;
 
@@ -39,6 +43,13 @@ function BookingDetail() {
     "checked-out": "silver",
   };
 
+  function handleDeleteBooking() {
+    deleteBooking(bookingId, {
+      onSettled: () => {
+        navigate(-1);
+      },
+    });
+  }
   return (
     <>
       <Row type="horizontal">
@@ -66,6 +77,26 @@ function BookingDetail() {
             Check Out
           </Button>
         )}
+        {/* //todo: i should wrap them in another component with handle delete*/}
+        <Modal>
+          <Modal.Open opens="delete-booking">
+            <Button
+              variation="danger"
+              icon={<HiTrash />}
+              onClick={() => checkout(bookingId)}
+              // disabled={isCheckingout}
+            >
+              Delete
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="delete-booking">
+            <ConfirmDelete
+              resourceName={"booking"}
+              onConfirm={handleDeleteBooking}
+              disabled={isDeleting}
+            />
+          </Modal.Window>
+        </Modal>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
