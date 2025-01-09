@@ -53,9 +53,10 @@ function BookingRow({
     totalPrice,
     status,
     guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
+    cabins,
   },
 }) {
+  const cabinName = cabins?.name;
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
