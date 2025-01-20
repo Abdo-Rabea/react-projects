@@ -16,7 +16,7 @@ export function useLogin() {
         return data.user;
       });
       toast.success("user login successfully");
-      navigate("/");
+      navigate("/", { replace: true });
     },
     onError: () => {
       toast.error("email or password are incorrect");
