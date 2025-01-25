@@ -7,6 +7,7 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUser } from "./useUser";
+import { useUpdateUser } from "./useUpdateUser";
 
 function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
@@ -16,12 +17,22 @@ function UpdateUserDataForm() {
       user_metadata: { fullName: currentFullName },
     },
   } = useUser();
-
+  const { updateUser, isPending: isUpdatingUser } = useUpdateUser();
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!fullName) return;
+    updateUser(
+      { fullName, avatar },
+      {
+        onSuccess: () => {
+          setAvatar(null);
+          e.target.reset();
+        },
+      }
+    );
   }
 
   return (
@@ -35,6 +46,7 @@ function UpdateUserDataForm() {
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           id="fullName"
+          disabled={isUpdatingUser}
         />
       </FormRow>
       <FormRow label="Avatar image">
@@ -42,13 +54,22 @@ function UpdateUserDataForm() {
           id="avatar"
           accept="image/*"
           onChange={(e) => setAvatar(e.target.files[0])}
+          disabled={isUpdatingUser}
         />
       </FormRow>
       <FormRow>
-        <Button type="reset" variation="secondary">
+        <Button
+          type="reset"
+          variation="secondary"
+          disabled={isUpdatingUser}
+          onClick={() => {
+            setFullName(currentFullName);
+            setAvatar(null);
+          }}
+        >
           Cancel
         </Button>
-        <Button>Update account</Button>
+        <Button disabled={isUpdatingUser}>Update account</Button>
       </FormRow>
     </Form>
   );
