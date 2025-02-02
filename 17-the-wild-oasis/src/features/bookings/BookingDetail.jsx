@@ -34,7 +34,7 @@ function BookingDetail() {
   const { checkout, isCheckingout } = useCheckout();
   const { isDeleting, deleteBooking } = useDeleteBooking();
   if (isLoading) return <Spinner />;
-  if (error) return <div>{error.message}</div>;
+  if (error) return <>{error.message}</>;
 
   const { status, id: bookingId } = booking;
   const statusToTagName = {

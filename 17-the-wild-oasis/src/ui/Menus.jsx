@@ -90,15 +90,16 @@ function Toggle({ id }) {
   const toggleElement = useRef();
   const { open, close, openId, updatePosition } = useContext(MenusContext);
   function handleToggle(e) {
+    e.stopPropagation();
     // the closest parent button (or the elemnt if it is button)
-    const rect = e.target.closest("button").getBoundingClientRect();
+    // const rect = e.target.closest("button").getBoundingClientRect();
     //* my logic is better than john
     if (openId === id) close();
     else {
-      updatePosition(
-        window.innerWidth - rect.x - rect.width,
-        rect.y + rect.height + 8
-      );
+      // updatePosition(
+      //   window.innerWidth - rect.x - rect.width,
+      //   rect.y + rect.height + 8
+      // );
       open(id);
     }
   }
@@ -111,7 +112,7 @@ function Toggle({ id }) {
 
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
-  const { ref } = useOutsideClick(close, true);
+  const { ref } = useOutsideClick(close, false);
   return (
     openId === id && (
       <StyledList ref={ref} position={position}>

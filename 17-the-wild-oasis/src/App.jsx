@@ -30,7 +30,6 @@ function App() {
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools buttonPosition="bottom-left" position="bottom" />
-        <GlobalStyles />
         <BrowserRouter>
           <Routes>
             {/* //*it is called AppLayout because it doesn't have path prop for the parent
